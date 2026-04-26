@@ -1,39 +1,3 @@
-points:
-RNNs naturally had good memory — rather, LSTM/GRU were patches to fix RNN's memory problem.
-
-first Vanila RNN was used which had insufficient long short term memory which was then improved by the LSTM and the GRU
-
-GRU : gated recurrent unit 
-LSTM : Long short term memory 
-
-These Were the state of the art (the best) models for :
-
-🔷 Sequence Modeling
-Teaching a model to understand or generate data that comes in order — like words in a sentence, where position matters.
-🔷 Transduction Problems
-Converting one sequence into another — e.g., English sentence → French sentence. Input and output are both sequences.
-🔷 Language Modeling
-Predicting the next word given previous words. Example: "The cat sat on the ___" → model predicts "mat".
-🔷 Machine Translation
-Automatically translating text from one language to another using a model.
-
-
-Things to know:
-🔷 Recurrent Language Models
-Language models built using RNN architecture — they process words one by one, left to right, carrying a hidden state forward.
-🔷 Encoder-Decoder Architecture
-A two-part system — the encoder reads and compresses the input sentence into a vector, and the decoder takes that vector and generates the output sentence. The classic architecture before Transformers.
-
-
-The google Scholars thought :??
-
-But Here's 1 Interesting Nugget 💡
-If you want a cool story hook for your explanation, you can mention:
-
-"This paper was born from a single idea — Jakob thought: what if we just completely remove RNNs and replace everything with self-attention? That one question led to the Transformer."
-
-That's a great human story behind the paper — but you don't need to explain the whole credits section.
-
 
 -------
 
@@ -41,10 +5,9 @@ my interpreation:
 
 so this part explains the basic working of a RNN between input and the output there are some hidden states which are the function ht which used the output of the ht-1 as its input this sequential behaviour is slow and cant be parralleized while training and takes a long with long training examples and memory constraint too. Recently it has inproved due to factorization tricks and conditional computation, Still the constraint of sequential (one after the other ) problem still remains which bottlenecks the capability 
 
-Your Interpretation
-Excellent! Almost perfect ✅
+
 You captured the core idea really well. One small addition — it's not just slow during training, it also means you can't use modern parallel hardware (like GPUs) efficiently because GPUs are designed to do many things simultaneously, but RNNs force everything to happen one step at a time.
-Your interpretation is research-paper ready. 🔥
+Your interpretation is research-paper ready. 
 
 Term-by-Term Breakdown
 🔷 ht and ht-1
