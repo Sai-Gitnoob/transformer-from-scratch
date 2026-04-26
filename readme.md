@@ -3,6 +3,61 @@
 A visual, story-driven breakdown of the **"Attention Is All You Need"** paper — from RNN limitations to self-attention and Transformers, with intuitive explanations, diagrams, and minimal code implementations.
 
 ---
+## Folder Structure
+
+
+```
+transformer-from-scratch/
+│
+├── README.md
+├── requirements.txt
+├── .gitignore
+│
+├── 01_story/
+│   ├── rnn_problem.md
+│   ├── why_sequence_models_fail.md
+│   ├── introduction_to_attention.md
+│
+├── 02_core_concepts/
+│   ├── self_attention.md
+│   ├── queries_keys_values.md
+│   ├── multi_head_attention.md
+│   ├── positional_encoding.md
+│
+├── 03_transformer/
+│   ├── encoder.md
+│   ├── decoder.md
+│   ├── full_architecture.md
+│
+├── 04_visuals/
+│   ├── diagrams/
+│   │   ├── rnn_vs_attention.png
+│   │   ├── self_attention_flow.png
+│   │   ├── transformer_architecture.png
+│   │
+│   ├── source_files/
+│       ├── figma_links.md   (or draw.io / excalidraw)
+│
+├── 05_code/
+│   ├── self_attention.py
+│   ├── multi_head_attention.py
+│   ├── transformer_block.py
+│   ├── minimal_transformer.py
+│
+├── 06_examples/
+│   ├── sentence_walkthrough.md
+│   ├── attention_visualization.ipynb
+│
+├── 07_summary/
+│   ├── key_takeaways.md
+│   ├── cheat_sheet.md
+│
+└── 08_resources/
+    ├── original_paper.md
+    ├── references.md
+```
+---
+
 
 ## 🧠 Who This Is For
 
