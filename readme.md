@@ -12,6 +12,7 @@ transformer-from-scratch/
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
+├── environment.yml
 │
 ├── 01_story/
 │   ├── rnn_problem.md
