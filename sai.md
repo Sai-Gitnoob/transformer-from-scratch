@@ -3,7 +3,7 @@ Embeddings and Softmax
 Similarly to other sequence transduction models, we use learned embeddings to convert the input
 tokens and output tokens to vectors of dimension dmodel . We also use the usual learned linear transfor-
 mation and softmax function to convert the decoder output to predicted next-token probabilities. In
-our model, we share the same weight matrix between the two embedding layers and the pre-softmax
+our model, we share the same weight matrix between the two embedding layers and the pre-softmax.
 √
 linear transformation, similar to [24]. In the embedding layers, we multiply those weights by dmodel .Interpretation:
 This section is about softmax function:
