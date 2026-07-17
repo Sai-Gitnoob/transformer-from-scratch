@@ -1,115 +1,4 @@
 
----
-Interpretation:
-This is about postional Encoding. As our model contains no recurence and no convolution in order to mae the use of order and the tracking of the sequence we need to do something. Thus we ad the postional encdoings to the input embedding at the bottoms of the encoder ad the decoder stacks. They have the same dimensional model as the embeddings .
-
-Your Interpretation
-Spot on! ✅ Perfect and concise. Now let me fill in the full picture since this is a really important concept.
-
-Why Do We Even Need This? 🔷
-Remember — Transformer processes all words simultaneously.
-Give it this sentence:
-"The cat sat on the mat"
-Without positional encoding the Transformer sees:
-{"cat", "the", "sat", "mat", "on", "the"}  ← just a BAG of words, no order!
-It cannot tell:
-"cat sat on mat" vs "mat sat on cat"  ← looks identical! ❌
-Word order carries meaning — positional encoding is how we inject that order back in.
-
-The Core Idea 🔷
-Final Input = Word Embedding + Positional Encoding
-Both must be same dimension (512) so they can be added together:
-"cat" embedding      = [0.2, 0.8, 0.1, ... 512 numbers]  (meaning)
-position 2 encoding  = [0.9, 0.4, 0.7, ... 512 numbers]  (position)
-                       ────────────────────────────────
-sum                  = [1.1, 1.2, 0.8, ... 512 numbers]  (meaning + position) ✅
-
-The Formula — Sine and Cosine 🔷
-The paper uses this fixed formula:
-PE(pos, 2i)   = sin(pos / 10000^(2i/dmodel))
-PE(pos, 2i+1) = cos(pos / 10000^(2i/dmodel))
-Looks scary — let's break it down simply:
-
-pos = position of the word in sentence (0, 1, 2, 3...)
-i = which dimension we're filling (0, 1, 2... up to 256)
-Even dimensions (2i) → use sine
-Odd dimensions (2i+1) → use cosine
-
-
-Worked Example 🔷
-Sentence: "I am happy"
-
-"I" = position 0
-"am" = position 1
-"happy" = position 2
-
-Let's compute just the first 4 dimensions of each positional encoding:
-dmodel = 512, so 10000^(2i/512)
-
-For position 0 ("I"):
-  dim 0 (even): sin(0 / 10000^0)   = sin(0)    = 0.000
-  dim 1 (odd):  cos(0 / 10000^0)   = cos(0)    = 1.000
-  dim 2 (even): sin(0 / 10000^0.004) = sin(0)  = 0.000
-  dim 3 (odd):  cos(0 / 10000^0.004) = cos(0)  = 1.000
-
-For position 1 ("am"):
-  dim 0 (even): sin(1 / 10000^0)   = sin(1)    = 0.841
-  dim 1 (odd):  cos(1 / 10000^0)   = cos(1)    = 0.540
-  dim 2 (even): sin(1 / 10000^0.004) = sin(0.999) = 0.840
-  dim 3 (odd):  cos(1 / 10000^0.004) = cos(0.999) = 0.541
-
-For position 2 ("happy"):
-  dim 0 (even): sin(2 / 10000^0)   = sin(2)    = 0.909
-  dim 1 (odd):  cos(2 / 10000^0)   = cos(2)    = -0.416
-  dim 2 (even): sin(2 / 10000^0.004)            = 0.908
-  dim 3 (odd):  cos(2 / 10000^0.004)            = -0.414
-Every position gets a completely unique fingerprint of 512 numbers ✅
-
-Why Sine and Cosine? — The Intuition 🔷
-Reason 1 — Always bounded between -1 and +1
-sin and cos always stay in [-1, 1]
-→ never too large, never explodes
-→ safe to add to embeddings ✅
-Reason 2 — Every position gets a unique pattern
-pos 0   → [0.000, 1.000, 0.000, 1.000, ...]
-pos 1   → [0.841, 0.540, 0.840, 0.541, ...]
-pos 2   → [0.909, -0.416, 0.908, -0.414, ...]
-pos 50  → completely different pattern
-pos 100 → completely different pattern
-No two positions ever produce the same encoding ✅
-Reason 3 — Relative positions are learnable
-The relationship between sine and cosine means the model can learn:
-PE(pos + k) = f(PE(pos))
-The model can figure out "this word is 3 positions after that word" just from the encodings — relative distance is mathematically encoded into the pattern.
-Real life analogy — like a clock 🕐
-
-Hour hand = slow changing (low frequency, large wavelength)
-Minute hand = medium changing
-Second hand = fast changing (high frequency, small wavelength)
-
-Together they uniquely identify any moment in time. Positional encoding does the same — multiple frequencies together uniquely identify any position.
-
-Learned vs Fixed 🔷
-The paper mentions two choices:
-Fixed (what they use)LearnedHowSine/cosine formulaTrained like embedding weightsGeneralizes to longer sequences?✅ Yes — formula works for any length❌ No — only lengths seen in trainingParameters addedZerodmodel × max_lengthPerformanceSimilarSimilarWhy chosenGeneralizes better + no extra params—
-They tried both and found similar performance — so they chose fixed sine/cosine for its ability to generalize to longer sequences than seen during training.
-
-Full Picture — Where PE Sits 🎯
-"I am happy"
-     ↓
-Word IDs → Embedding Matrix → (3 × 512)
-                                   +
-               Positional Encoding (3 × 512)
-                    [fixed sine/cosine]
-                                   ↓
-              Combined Input (3 × 512) ← meaning + position ✅
-                                   ↓
-                    Encoder Stack (×6)
-Same thing happens at the bottom of the decoder for output embeddings.
-
-One Line Summary 💡
-
-Since Transformer has no built-in order tracking, sine/cosine positional encodings are added to word embeddings — giving every position a unique mathematical fingerprint while keeping values bounded and relative distances learnable
 
 
 Repo Mapping 📁
@@ -324,7 +213,11 @@ This table belongs in:
 03_transformer/full_architecture.md — as the justification for choosing self-attention
 04_visuals/diagrams/ — save the original table image as complexity_comparison.png 🚀
 
-Ready for the next chunk! 🔥You said: In this work, we use sine and cosine functions of different frequencies:In this work, we use sine and cosine functions of different frequencies: 
+Ready for the next chunk! 🔥
+
+---
+
+You said: In this work, we use sine and cosine functions of different frequencies:In this work, we use sine and cosine functions of different frequencies: 
 Formula (In the screenshot)
 where pos is the position and i is the dimension. That is, each dimension of the positional encoding
 corresponds to a sinusoid. The wavelengths form a geometric progression from 2π to 10000 · 2π. We
